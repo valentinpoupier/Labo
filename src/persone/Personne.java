@@ -1,12 +1,14 @@
 package persone;
 
-public class Personne {
+import java.io.Serializable;
+
+public class Personne implements Serializable {
     public String nom;
     public String club;
 
     public Personne() {
         nom = "";
-        club = "";
+        club = "Alcollique Anonyme";
     }
 
     public String getNom() {

@@ -1,51 +1,28 @@
 package horaire;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-public class Horaire {
-    private LocalDateTime heuredebut;
-    private LocalDateTime heurefin;
-    private LocalDate dateDebut;
-    private LocalDate dateFin;
+public class Horaire implements Comparable<Horaire>, Serializable {
+    private LocalDateTime debut;
+    private LocalTime fin;
 
-    public Horaire() {
-        this.heuredebut = LocalDateTime.now();
-        this.heurefin = LocalDateTime.now();
-        this.dateDebut = LocalDate.now();
-        this.dateFin = LocalDate.now();
+    public Horaire(LocalDateTime debut, LocalTime fin) {
+        this.debut = debut;
+        this.fin = fin;
     }
 
-    public LocalDateTime getHeuredebut() {
-        return heuredebut;
+    public LocalDateTime getDebut() {
+        return debut;
     }
 
-    public void setHeuredebut(LocalDateTime heuredebut) {
-        this.heuredebut = heuredebut;
+    public LocalTime getFin() {
+        return fin;
     }
 
-    public LocalDateTime getHeurefin() {
-        return heurefin;
+    @Override
+    public int compareTo(Horaire o) {
+        return this.debut.compareTo(o.debut);
     }
-
-    public void setHeurefin(LocalDateTime heurefin) {
-        this.heurefin = heurefin;
-    }
-
-    public LocalDate getDateDebut() {
-        return dateDebut;
-    }
-
-    public void setDateDebut(LocalDate dateDebut) {
-        this.dateDebut = dateDebut;
-    }
-
-    public LocalDate getDateFin() {
-        return dateFin;
-    }
-
-    public void setDateFin(LocalDate dateFin) {
-        this.dateFin = dateFin;
-    }
-
 }
