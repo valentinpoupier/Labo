@@ -1,7 +1,4 @@
-public class Controleur {
-    private final Input input;
-
-    public Controleur(Input input) {
-        this.input = input;
-    }
+public interface Controleur {
+    void inscription();
+    void stage();
 }

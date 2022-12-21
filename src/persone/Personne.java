@@ -4,6 +4,11 @@ public class Personne {
     public String nom;
     public String club;
 
+    public Personne() {
+        nom = "";
+        club = "";
+    }
+
     public String getNom() {
         return nom;
     }
