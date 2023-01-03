@@ -5,7 +5,6 @@ import java.util.*;
 
 public class Main {
     private static ScannerInput input = new ScannerInput();
-    private static TreeSet<Personne> personneList = new TreeSet<>(Comparator.comparing(Personne::getNom));
     private static Map<Stage,TreeSet<Personne>> stageList = new TreeMap<>(Comparator.comparing(Stage::getHoraire));
 
     public static void main(String[] args) {
@@ -20,6 +19,7 @@ public class Main {
                 case "2" -> {
                     Controleur ctrl = getCreateControleur();
                     ctrl.afficherListeStage();
+                    System.out.println();
                     yield ctrl;
                 }
                 default -> null;

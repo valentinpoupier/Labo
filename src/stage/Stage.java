@@ -12,7 +12,6 @@ public class Stage {
     private Horaire horaire;
 
     public Stage(Horaire horaire, TreeSet<Personne> inscrit) {
-        this.nom = null;
         this.tarif = 0;
         this.inscrit = inscrit;
         this.horaire = horaire;
@@ -62,7 +61,7 @@ public class Stage {
                 ", tarif=" + tarif +
                 ", inscrit=" + toStringInscrit() +
                 ", horaire=" + horaire.getDebut()+" à "+ horaire.getFin() +
-                '}';
+                "} \n";
         return tostring.replace(",","\n");
     }
 }

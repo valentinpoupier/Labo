@@ -6,7 +6,6 @@ public class Personne {
     public String club;
 
     public Personne() {
-        nom = null;
         club = "Alcollique Anonyme";
     }
 

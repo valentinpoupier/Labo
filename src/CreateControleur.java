@@ -13,21 +13,22 @@ public class CreateControleur implements Controleur {
         this.input = input;
         this.stageList = stageList;
     }
-
     @Override
     public TreeSet<Personne> inscription(TreeSet<Personne> personneList) {
+        TreeSet<Personne> addpersonne= new TreeSet<>(Comparator.comparing(Personne::getNom));
+        addpersonne.addAll(personneList);
         String request = input.read("1. Ajouter une personne ; 2. Supprimer une personne ; Q. Quitter: ");
         while (!request.equalsIgnoreCase("q")) {
             switch (request) {
                 case "1" -> {
                     Personne personne = new Personne();
-                    personne.nom = input.read("Nom: ");
+                    personne.setNom(input.read("Nom: ").toUpperCase());
                     request = input.read("Club: ");
                     if (Objects.equals(request, "")){
-                        personneList.add(personne);
+                        addpersonne.add(personne);
                     }else {
-                        personne.club = request;
-                        personneList.add(personne);
+                        personne.setClub(request);
+                        addpersonne.add(personne);
                     }
 
                 }
@@ -36,6 +37,7 @@ public class CreateControleur implements Controleur {
                         System.out.println("La liste est vide");
                     } else {
                         request = input.read("Indiquer le nom de la personne que vous souhaitez supprimez: ");
+                        request = request.toUpperCase();
                         for (Personne p : personneList) {
                             if (Objects.equals(p.getNom(), request)) {
                                 personneList.remove(p);
@@ -44,14 +46,14 @@ public class CreateControleur implements Controleur {
                     }
                 }
             }
-            for (Personne p : personneList) {
+            for (Personne p : addpersonne) {
                 System.out.println();
                 System.out.printf("Nom: %s %nClub: %s %n", p.getNom(), p.getClub());
                 System.out.println("-----------------");
             }
             request = input.read("1. Ajouter une personne ; 2. Supprimer une personne ; Q. Quitter: ");
         }
-        return personneList;
+        return addpersonne;
     }
 
     @Override
@@ -77,14 +79,18 @@ public class CreateControleur implements Controleur {
                     }
                 }
             }
-            request = input.read("1. Ajouter ; 2. Modifier ; 3. Supprimer ; Q. Quitter");
+            request = input.read("1. Ajouter un stage ; 2. Modifier ; 3. Supprimer ; Q. Quitter");
         }
     }
 
     @Override
     public void afficherListeStage() {
-        for (Stage s : stageList.keySet()) {
-            System.out.printf(s.toString());
+        if (stageList.size()==0){
+            System.out.println("horraire vide");
+        }else {
+            for (Stage s : stageList.keySet()) {
+                System.out.printf(s.toString());
+            }
         }
     }
 
