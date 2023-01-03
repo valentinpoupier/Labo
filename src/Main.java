@@ -4,8 +4,8 @@ import stage.Stage;
 import java.util.*;
 
 public class Main {
-    private static ScannerInput input = new ScannerInput();
-    private static Map<Stage,TreeSet<Personne>> stageList = new TreeMap<>(Comparator.comparing(Stage::getHoraire));
+    private static final ScannerInput input = new ScannerInput();
+    private static final Map<Stage,TreeSet<Personne>> stageList = new TreeMap<>(Comparator.comparing(Stage::getHoraire));
 
     public static void main(String[] args) {
         Controleur controleur;

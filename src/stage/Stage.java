@@ -2,6 +2,9 @@ package stage;
 
 import horaire.Horaire;
 import persone.Personne;
+
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -56,12 +59,13 @@ public class Stage {
 
     @Override
     public String toString() {
-        String tostring = "Stage{" +
-                "nom='" + nom + '\'' +
-                ", tarif=" + tarif +
-                ", inscrit=" + toStringInscrit() +
-                ", horaire=" + horaire.getDebut()+" à "+ horaire.getFin() +
-                "} \n";
+        String tostring = "Stage:" +
+                "nom= " + nom +
+                ", tarif= " + tarif +
+                ", inscrit= " + toStringInscrit() +
+                ", horaire= Le " + horaire.getDebut().format(DateTimeFormatter.ofPattern("MM/dd/yy hh:mm"))
+                +" jusqu'à "+ horaire.getFin() +
+                "\n";
         return tostring.replace(",","\n");
     }
 }

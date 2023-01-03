@@ -7,7 +7,7 @@ import java.util.*;
 
 public class CreateControleur implements Controleur {
     private final Input input;
-    private Map<Stage, TreeSet<Personne>> stageList;
+    private final Map<Stage, TreeSet<Personne>> stageList;
 
     public CreateControleur(Input input, Map<Stage, TreeSet<Personne>> stageList) {
         this.input = input;
@@ -30,7 +30,6 @@ public class CreateControleur implements Controleur {
                         personne.setClub(request);
                         addpersonne.add(personne);
                     }
-
                 }
                 case "2" -> {
                     if (personneList.size() == 0) {
@@ -68,8 +67,6 @@ public class CreateControleur implements Controleur {
                     request = input.read("Nom du stage: ");
                     stage.setNom(request);
                     stage.setInscrit(inscription(personneListStage));
-                    request = input.read("Le tarif: ");
-                    stage.setTarif(Integer.parseInt(request));
                     stageList.put(stage, stage.getInscrit());
                 }
                 case "2" -> {
