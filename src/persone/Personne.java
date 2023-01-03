@@ -1,13 +1,12 @@
 package persone;
 
-import java.io.Serializable;
 
-public class Personne implements Serializable {
+public class Personne {
     public String nom;
     public String club;
 
     public Personne() {
-        nom = "";
+        nom = null;
         club = "Alcollique Anonyme";
     }
 

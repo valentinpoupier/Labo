@@ -1,9 +1,8 @@
 import persone.Personne;
-
-import java.util.List;
+import java.util.TreeSet;
 
 public interface Controleur {
-    List<Personne> inscription(List<Personne> personneList);
+    TreeSet<Personne> inscription(TreeSet<Personne> personneList);
 
     void stage();
     void afficherListeStage();

@@ -1,10 +1,10 @@
 package horaire;
 
-import java.io.Serializable;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Horaire implements Comparable<Horaire>, Serializable {
+public class Horaire implements Comparable<Horaire>{
     private LocalDateTime debut;
     private LocalTime fin;
 

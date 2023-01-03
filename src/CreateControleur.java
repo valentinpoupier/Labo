@@ -3,63 +3,70 @@ import horaire.Horaire;
 import persone.Personne;
 import stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CreateControleur implements Controleur {
     private final Input input;
-    private List<Personne> personneList;
-    private Map<Stage, List<Personne>> stageList;
+    private Map<Stage, TreeSet<Personne>> stageList;
 
-    public CreateControleur(Input input, List<Personne> personneList, Map<Stage, List<Personne>> stageList) {
+    public CreateControleur(Input input, Map<Stage, TreeSet<Personne>> stageList) {
         this.input = input;
         this.stageList = stageList;
     }
+
     @Override
-    public List<Personne> inscription(List<Personne> personneList) {
-        String request = input.read("1. Ajouter ; 2. Supprimer ; Q. Quitter: ");
-        while (!request.equalsIgnoreCase("q")){
-            switch (request){
+    public TreeSet<Personne> inscription(TreeSet<Personne> personneList) {
+        String request = input.read("1. Ajouter une personne ; 2. Supprimer une personne ; Q. Quitter: ");
+        while (!request.equalsIgnoreCase("q")) {
+            switch (request) {
                 case "1" -> {
                     Personne personne = new Personne();
                     personne.nom = input.read("Nom: ");
-                    personne.club = input.read("Club: ");
-                    personneList.add(personne);
+                    request = input.read("Club: ");
+                    if (Objects.equals(request, "")){
+                        personneList.add(personne);
+                    }else {
+                        personne.club = request;
+                        personneList.add(personne);
+                    }
+
                 }
                 case "2" -> {
-                    request = input.read("Indiquer le nom de la personne que vous souhaitez supprimez: ");
-                    for (Personne p : personneList) {
-                        if (Objects.equals(p.getNom(), request)) {
-                            personneList.remove(p);
+                    if (personneList.size() == 0) {
+                        System.out.println("La liste est vide");
+                    } else {
+                        request = input.read("Indiquer le nom de la personne que vous souhaitez supprimez: ");
+                        for (Personne p : personneList) {
+                            if (Objects.equals(p.getNom(), request)) {
+                                personneList.remove(p);
+                            }
                         }
                     }
                 }
             }
             for (Personne p : personneList) {
-                System.out.println("-----------------");
+                System.out.println();
                 System.out.printf("Nom: %s %nClub: %s %n", p.getNom(), p.getClub());
                 System.out.println("-----------------");
             }
-            request = input.read("1. Ajouter ; 2. Supprimer ; Q. Quitter");
+            request = input.read("1. Ajouter une personne ; 2. Supprimer une personne ; Q. Quitter: ");
         }
         return personneList;
     }
 
     @Override
     public void stage() {
-        List<Personne> personneListStage = new ArrayList<>();
+        TreeSet<Personne> personneListStage = new TreeSet<>(Comparator.comparing(Personne::getNom));
         String request = input.read("1. Ajouter un stage ; 2. Supprimer ; Q. Quitter: ");
-        while (!request.equalsIgnoreCase("q")){
-            switch (request){
+        while (!request.equalsIgnoreCase("q")) {
+            switch (request) {
                 case "1" -> {
-                    Horaire horaire = new Horaire(new DateHoraire().dateTime(),new DateHoraire().time());
-                    Stage stage = new Stage(horaire,personneListStage);
+                    Horaire horaire = new Horaire(new DateHoraire().dateTime(), new DateHoraire().time());
+                    Stage stage = new Stage(horaire, personneListStage);
                     request = input.read("Nom du stage: ");
                     stage.setNom(request);
                     stage.setInscrit(inscription(personneListStage));
-                    stageList.put(stage,stage.getInscrit());
+                    stageList.put(stage, stage.getInscrit());
                 }
                 case "2" -> {
                     request = input.read("Indiquer le nom du stage que vous souhaitez supprimez: ");

@@ -2,20 +2,17 @@ package stage;
 
 import horaire.Horaire;
 import persone.Personne;
-
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-public class Stage implements Serializable {
+public class Stage {
     private String nom;
     private int tarif;
-    private List<Personne> inscrit;
+    private TreeSet<Personne> inscrit;
     private Horaire horaire;
 
-    public Stage(Horaire horaire, List<Personne> inscrit) {
-        this.nom = "";
+    public Stage(Horaire horaire, TreeSet<Personne> inscrit) {
+        this.nom = null;
         this.tarif = 0;
         this.inscrit = inscrit;
         this.horaire = horaire;
@@ -37,16 +34,16 @@ public class Stage implements Serializable {
         this.tarif = tarif;
     }
 
-    public List<Personne> getInscrit() {
+    public TreeSet<Personne> getInscrit() {
         return inscrit;
     }
 
-    public void setInscrit(List<Personne> inscrit) {
+    public void setInscrit(TreeSet<Personne> inscrit) {
         this.inscrit = inscrit;
     }
 
     public String toStringInscrit(){
-        String inscrit = this.inscrit.stream().map(p -> "nom: "+p.getNom().toUpperCase() + " club: " + p.getClub()).collect(Collectors.joining(", "));
+        String inscrit = this.inscrit.stream().map(p -> "nom: "+p.getNom().toUpperCase() + " club: " + p.getClub()).collect(Collectors.joining("; "));
         return inscrit;
     }
 
@@ -60,11 +57,12 @@ public class Stage implements Serializable {
 
     @Override
     public String toString() {
-        return "Stage{" +
+        String tostring = "Stage{" +
                 "nom='" + nom + '\'' +
                 ", tarif=" + tarif +
                 ", inscrit=" + toStringInscrit() +
                 ", horaire=" + horaire.getDebut()+" à "+ horaire.getFin() +
                 '}';
+        return tostring.replace(",","\n");
     }
 }
