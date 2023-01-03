@@ -68,6 +68,8 @@ public class CreateControleur implements Controleur {
                     request = input.read("Nom du stage: ");
                     stage.setNom(request);
                     stage.setInscrit(inscription(personneListStage));
+                    request = input.read("Le tarif: ");
+                    stage.setTarif(Integer.parseInt(request));
                     stageList.put(stage, stage.getInscrit());
                 }
                 case "2" -> {
