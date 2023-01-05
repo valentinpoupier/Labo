@@ -13,82 +13,131 @@ public class CreateControleur implements Controleur {
         this.input = input;
         this.stageList = stageList;
     }
-    @Override
-    public TreeSet<Personne> inscription(TreeSet<Personne> personneList) {
-        TreeSet<Personne> addpersonne= new TreeSet<>(Comparator.comparing(Personne::getNom));
-        addpersonne.addAll(personneList);
-        String request = input.read("1. Ajouter une personne ; 2. Supprimer une personne ; Q. Quitter: ");
-        while (!request.equalsIgnoreCase("q")) {
-            switch (request) {
-                case "1" -> {
-                    Personne personne = new Personne();
-                    personne.setNom(input.read("Nom: ").toUpperCase());
-                    request = input.read("Club: ");
-                    if (Objects.equals(request, "")){
-                        addpersonne.add(personne);
-                    }else {
-                        personne.setClub(request);
-                        addpersonne.add(personne);
-                    }
-                }
-                case "2" -> {
-                    if (personneList.size() == 0) {
-                        System.out.println("La liste est vide");
-                    } else {
-                        request = input.read("Indiquer le nom de la personne que vous souhaitez supprimez: ");
-                        request = request.toUpperCase();
-                        for (Personne p : personneList) {
-                            if (Objects.equals(p.getNom(), request)) {
-                                personneList.remove(p);
-                            }
-                        }
-                    }
-                }
-            }
-            for (Personne p : addpersonne) {
-                System.out.println();
-                System.out.printf("Nom: %s %nClub: %s %n", p.getNom(), p.getClub());
-                System.out.println("-----------------");
-            }
-            request = input.read("1. Ajouter une personne ; 2. Supprimer une personne ; Q. Quitter: ");
-        }
-        return addpersonne;
-    }
 
     @Override
     public void stage() {
         TreeSet<Personne> personneListStage = new TreeSet<>(Comparator.comparing(Personne::getNom));
-        String request = input.read("1. Ajouter un stage ; 2. Supprimer ; Q. Quitter: ");
+        String request = input.read("1. Ajouter un stage ; 2. Supprimer ; 3. modifier un stage ; Q. Quitter: ");
         while (!request.equalsIgnoreCase("q")) {
             switch (request) {
-                case "1" -> {
-                    Horaire horaire = new Horaire(new DateHoraire().dateTime(), new DateHoraire().time());
-                    Stage stage = new Stage(horaire, personneListStage);
-                    request = input.read("Nom du stage: ");
-                    stage.setNom(request);
-                    stage.setInscrit(inscription(personneListStage));
-                    stageList.put(stage, stage.getInscrit());
-                }
-                case "2" -> {
-                    request = input.read("Indiquer le nom du stage que vous souhaitez supprimez: ");
-                    for (Stage s : stageList.keySet()) {
-                        if (Objects.equals(s.getNom(), request)) {
-                            stageList.remove(s);
-                        }
-                    }
-                }
+                case "1" -> addStage(personneListStage);
+                case "2" -> deleteStage();
+                case "3" -> editStage(personneListStage);
             }
-            request = input.read("1. Ajouter un stage ; 2. Modifier ; 3. Supprimer ; Q. Quitter");
+            request = input.read("1. Ajouter un stage ; 2. Supprimer ; 3. modifier un stage ; Q. Quitter");
         }
+    }
+
+    private void editStage(TreeSet<Personne> personneListStage) {
+        String request = input.read("Indiquer le nom du stage à modifier: ");
+        for (Stage s : stageList.keySet()) {
+            if (s.getNom().equalsIgnoreCase(request)) {
+                System.out.println(s);
+                request = input.read("1. modifier le nom du stage ; 2. modifier liste de personne: ");
+                switch (request) {
+                    case "1" -> {
+                        request = input.read("Entrer nouveau nom : ");
+                        s.setNom(request);
+                    }
+                    case "2" -> s.setInscrit(inscription(personneListStage));
+                }
+            } else {
+                System.out.println("Stage non trouver");
+            }
+        }
+    }
+
+    private void deleteStage() {
+        String request = input.read("Indiquer le nom du stage que vous souhaitez supprimez: ");
+        for (Stage s : stageList.keySet()) {
+            if (s.getNom().equalsIgnoreCase(request)) {
+                stageList.remove(s);
+            }
+        }
+    }
+
+    private void addStage(TreeSet<Personne> personneListStage) {
+        Horaire horaire = new Horaire(new DateHoraire().dateTime(), new DateHoraire().time());
+        Stage stage = new Stage(horaire, personneListStage);
+        String request = input.read("Nom du stage: ");
+        stage.setNom(request);
+        stage.setInscrit(inscription(personneListStage));
+        stageList.put(stage, stage.getInscrit());
     }
 
     @Override
     public void afficherListeStage() {
-        if (stageList.size()==0){
+        if (stageList.size() == 0) {
             System.out.println("horraire vide");
-        }else {
+        } else {
             for (Stage s : stageList.keySet()) {
                 System.out.printf(s.toString());
+            }
+        }
+    }
+
+    @Override
+    public TreeSet<Personne> inscription(TreeSet<Personne> personneList) {
+        TreeSet<Personne> copypersonne = new TreeSet<>(Comparator.comparing(Personne::getNom));
+        copypersonne.addAll(personneList);
+        String request;
+        do {
+            request = input.read("1. Ajouter une personne ; 2. Supprimer une personne ; 3. modifier une personne ; Q. Quitter: ");
+            switch (request) {
+                case "1" -> addPersonne(copypersonne);
+                case "2" -> supprimerPersonne(copypersonne);
+                case "3" -> modifierPersonne(copypersonne);
+            }
+            for (Personne p : copypersonne) {
+                System.out.println();
+                System.out.printf("Nom: %s %nClub: %s %n", p.getNom(), p.getClub());
+                System.out.println("-----------------");
+            }
+
+        } while (!request.equalsIgnoreCase("q"));
+        return copypersonne;
+    }
+
+    private void addPersonne(TreeSet<Personne> addpersonne) {
+        Personne personne = new Personne();
+        personne.setNom(input.read("Nom: ").toUpperCase());
+        String request = input.read("Club: ");
+        if (Objects.equals(request, "")) {
+            addpersonne.add(personne);
+        } else {
+            personne.setClub(request);
+            addpersonne.add(personne);
+        }
+    }
+
+    private void supprimerPersonne(TreeSet<Personne> personneList) {
+        if (personneList.size() == 0) {
+            System.out.println("La liste est vide");
+        } else {
+            String request = input.read("Indiquer le nom de la personne que vous souhaitez supprimez: ");
+            request = request.toUpperCase();
+            for (Personne p : personneList) {
+                if (p.getNom().equalsIgnoreCase(request)) {
+                    personneList.remove(p);
+                }
+            }
+        }
+    }
+
+    private void modifierPersonne(TreeSet<Personne> personneList) {
+        String request = input.read("Entrer le nom de la personne à modifier: ");
+        for (Personne p : personneList) {
+            if (p.getNom().equalsIgnoreCase(request)) {
+                System.out.println(p);
+                request = input.read("Entrer le nouveau nom: ");
+                p.setNom(request);
+                request = input.read("Modifier le club ? : o/n");
+                if (request.equalsIgnoreCase("o")) {
+                    request = input.read("Entrer nouveau nom de club : ");
+                    p.setClub(request);
+                }
+            } else {
+                System.out.println("Nom de la personne introuvable");
             }
         }
     }

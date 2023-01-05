@@ -6,7 +6,7 @@ public class Personne {
     public String club;
 
     public Personne() {
-        club = "Alcollique Anonyme";
+        club = "Club par défaut";
     }
 
     public String getNom() {
