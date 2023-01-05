@@ -62,8 +62,8 @@ public class Stage implements Serializable {
                 "nom= " + nom +
                 ", tarif= " + tarif +
                 ", inscrit= " + toStringInscrit() +
-                ", horaire= Le " + horaire.getDebut().format(DateTimeFormatter.ofPattern("MM/dd/yy hh:mm"))
-                +" jusqu'à "+ horaire.getFin() +
+                ", horaire= Le " + horaire.debut().format(DateTimeFormatter.ofPattern("MM/dd/yy hh:mm"))
+                +" jusqu'à "+ horaire.fin() +
                 "\n";
         return tostring.replace(",","\n");
     }
