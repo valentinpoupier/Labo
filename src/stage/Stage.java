@@ -3,12 +3,12 @@ package stage;
 import horaire.Horaire;
 import persone.Personne;
 
+import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-public class Stage {
+public class Stage implements Serializable {
     private String nom;
     private int tarif;
     private TreeSet<Personne> inscrit;
@@ -45,8 +45,7 @@ public class Stage {
     }
 
     public String toStringInscrit(){
-        String inscrit = this.inscrit.stream().map(p -> "nom: "+p.getNom().toUpperCase() + " club: " + p.getClub()).collect(Collectors.joining("; "));
-        return inscrit;
+        return this.inscrit.stream().map(p -> "nom: "+p.getNom().toUpperCase() + " club: " + p.getClub()).collect(Collectors.joining("; "));
     }
 
     public Horaire getHoraire() {

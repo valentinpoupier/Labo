@@ -1,7 +1,9 @@
 package persone;
 
 
-public class Personne {
+import java.io.Serializable;
+
+public class Personne implements Serializable {
     public String nom;
     public String club;
 
