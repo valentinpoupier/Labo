@@ -16,27 +16,30 @@ public class CreateControleur implements Controleur {
 
     @Override
     public void stage() {
-        TreeSet<Personne> personneListStage = new TreeSet<>(Comparator.comparing(Personne::getNom));
         String request;
         do {
             request = input.read("1. Ajouter un stage ; 2. Supprimer ; 3. modifier un stage ; Q. Quitter: ");
             switch (request) {
-                case "1" -> addStage(personneListStage);
+                case "1" -> {
+                    TreeSet<Personne> personneListStage = new TreeSet<>(Comparator.comparing(Personne::getNom));
+                    addStage(personneListStage);
+                }
                 case "2" -> deleteStage();
-                case "3" -> editStage(personneListStage);
+                case "3" -> editStage(stageList);
             }
         } while (!request.equalsIgnoreCase("q"));
     }
 
-    private void editStage(TreeSet<Personne> personneListStage) {
-        if (stageList.size() == 0) {
+    private void editStage(Map<Stage, TreeSet<Personne>> stageList) {
+        if (this.stageList.size() == 0) {
             System.out.println("Liste stage vide");
         } else {
             String request = input.read("Indiquer le nom du stage à modifier: ");
-            for (Stage s : stageList.keySet()) {
+            for (Stage s : this.stageList.keySet()) {
                 if (s.getNom().equalsIgnoreCase(request)) {
                     System.out.println(s);
                     request = input.read("1. modifier le nom du stage ; 2. modifier liste de personne: ");
+                    TreeSet<Personne> personneListStage = new TreeSet<>(stageList.get(s));
                     switch (request) {
                         case "1" -> {
                             request = input.read("Entrer nouveau nom : ");
@@ -86,24 +89,22 @@ public class CreateControleur implements Controleur {
 
     @Override
     public TreeSet<Personne> inscription(TreeSet<Personne> personneList) {
-        TreeSet<Personne> copypersonne = new TreeSet<>(Comparator.comparing(Personne::getNom));
-        copypersonne.addAll(personneList);
         String request;
         do {
             request = input.read("1. Ajouter une personne ; 2. Supprimer une personne ; 3. modifier une personne ; Q. Quitter: ");
             switch (request) {
-                case "1" -> addPersonne(copypersonne);
-                case "2" -> supprimerPersonne(copypersonne);
-                case "3" -> modifierPersonne(copypersonne);
+                case "1" -> addPersonne(personneList);
+                case "2" -> supprimerPersonne(personneList);
+                case "3" -> modifierPersonne(personneList);
             }
-            for (Personne p : copypersonne) {
+            for (Personne p : personneList) {
                 System.out.println();
                 System.out.printf("Nom: %s %nClub: %s %n", p.getNom(), p.getClub());
                 System.out.println("-----------------");
             }
 
         } while (!request.equalsIgnoreCase("q"));
-        return copypersonne;
+        return personneList;
     }
 
     private void addPersonne(TreeSet<Personne> addpersonne) {
@@ -124,11 +125,13 @@ public class CreateControleur implements Controleur {
         } else {
             String request = input.read("Indiquer le nom de la personne que vous souhaitez supprimez: ");
             request = request.toUpperCase();
+            List<Personne> toRemove = new ArrayList<>();
             for (Personne p : personneList) {
                 if (p.getNom().equalsIgnoreCase(request)) {
-                    personneList.remove(p);
+                    toRemove.add(p);
                 }
             }
+            toRemove.forEach(personneList::remove);
         }
     }
 
@@ -147,9 +150,8 @@ public class CreateControleur implements Controleur {
                         request = input.read("Entrer nouveau nom de club : ");
                         p.setClub(request);
                     }
-                } else {
-                    System.out.println("Nom de la personne introuvable");
                 }
+
             }
         }
     }
