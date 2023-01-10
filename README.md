@@ -6,7 +6,7 @@ Avec constructor, getter et setter pour chaque attribut.
 Classe Stage : Attribut String "nom", Treeset de personnes "Inscrit", "horaire" de type horaire.
 Avec constructor, getter et setter pour chaque attribut.
 
-Record Horaire qui implémente Comparable<Horaire> prenant en argument LocalDateTime (debut du stage) et LocalTime (heure de fin du stage).
+Record Horaire qui implémente Comparable<Horaire> prenant en paramètre LocalDateTime (debut du stage) et LocalTime (heure de fin du stage).
 
 Classe DateHoraire utilisé pour la création de la date et heure avec les méthodes dateTime() servant à entrer la date de début et time() servant a entrer l'heure de fin du stage.
 
