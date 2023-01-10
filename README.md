@@ -21,6 +21,6 @@ Classe ScannerInput qui implemente Input. Utiliser pour communiquer et entrer le
 
 Classe Main, Utiliser pour exécuter le programme et gestion du menu principal
 
-Le programme est loin d'être terminer, l'objectif que je m'avais fixé était de travailler avec les collections et d'être plusà l'aise avec la gestion des adresses mémoire des différents objets contenuent dans les collections.
+Le programme est loin d'être terminer, l'objectif que je m'étais fixé était de travailler avec les collections et d'être plusà l'aise avec la gestion des adresses mémoire des différents objets contenuent dans les collections.
 J'auai pu m'abstenir de faire une date de fin de stage comme je l'ai fais et faire uniquement une addition des minutes que l'utilsateur aurait entrer au moment de la création de la date du stage.
 Il est probal que le fait d'avoir fait les stages comme la valeur principal pour un planning n'est pas des plus judicieux. Car pour l'ajout des repas, des logements et autres, cela complique énorment les choses. 
